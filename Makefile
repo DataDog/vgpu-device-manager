@@ -41,7 +41,8 @@ endif
 
 cmds: $(CMD_TARGETS)
 $(CMD_TARGETS): cmd-%:
-	GOOS=$(GOOS) go build -ldflags "-s -w -X $(VERSION_PKG).gitCommit=$(GIT_COMMIT) -X $(VERSION_PKG).version=$(VERSION)" $(COMMAND_BUILD_OPTIONS) $(MODULE)/cmd/$(*)
+	GOOS=$(GOOS) CGO_ENABLED=1 GOEXPERIMENT=boringcrypto go build -tags fips -ldflags "-w -X $(VERSION_PKG).gitCommit=$(GIT_COMMIT) -X $(VERSION_PKG).version=$(VERSION)" $(COMMAND_BUILD_OPTIONS) $(MODULE)/cmd/$(*)
+	go tool nm $(PREFIX)/$(*) | grep -E 'sig.FIPSOnly'
 
 build:
 	GOOS=$(GOOS) go build $(MODULE)/...
