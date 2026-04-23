@@ -2,6 +2,8 @@ module github.com/NVIDIA/vgpu-device-manager
 
 go 1.25.0
 
+toolchain go1.26.2
+
 require (
 	github.com/NVIDIA/go-nvlib v0.9.0
 	github.com/NVIDIA/mig-parted v0.13.1
